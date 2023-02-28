@@ -42,6 +42,11 @@ void boolAttribute::setval(bool b) { val = b; }
 void Record::addAttr(Attr * a) { attrptr.push_back(a); }
 int Record::getAttrCount() { return attrptr.size(); }
 vector <Attr *> Record::getAttrPtr() { return attrptr; }
+Record::~Record() {
+	for (int i = 0; i < attrptr.size(); i++) {
+		delete attrptr[i];
+	}
+}
 //defining the functions of the class Relation
 Relation::Relation(int na , int nr , vector <string> atn , vector <string> att , vector <int> ati): natttr(na) , nrecs(nr) , attrnames(atn) , attrtypes(att) , attrinds(ati) {}
 void Relation::addRecord(Record * r) {
@@ -96,4 +101,8 @@ void Relation::setAttrInds(vector <int> ati) { attrinds = ati; }
 list <Record *> Relation::getRecords() { return recs; }
 int Relation::getRecCount() { return nrecs; }
 void Relation::setAttrNames(vector <string> atn) { attrnames = atn; }
-
+Relation::~Relation() {
+	for (list <Record *>::iterator it = recs.begin(); it != recs.end(); it++) {
+		(*it)->~Record();
+	}
+}

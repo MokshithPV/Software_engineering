@@ -89,6 +89,7 @@ int main()
 				}
 				vector<Relation *>::iterator it = rels.begin();
 				advance(it, id);
+				(*it)->~Relation();
 				rels.erase(it);//deleting the table
 				cout << "Table deleted.\n";
 			}

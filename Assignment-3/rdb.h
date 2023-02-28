@@ -83,7 +83,7 @@ class Record {//class for maintaining records
 		void addAttr(Attr * a);//function to add attribute to record
 		int getAttrCount();//function to get number of attributes in record
 		vector<Attr *> getAttrPtr();//function to get vector of pointers to attributes
-
+		~Record();//destructor
 };
 
 class Relation {//class for maintaining relations
@@ -104,6 +104,7 @@ class Relation {//class for maintaining relations
 		list <Record *> getRecords();//function to get list of records
 		int getRecCount();//function to get number of records in relation
 		void setAttrNames(vector<string> atn);//function to set vector of attribute names
+		~Relation();//destructor
 };
 
 typedef struct DNF_{//struct for maintaining DNF formula
