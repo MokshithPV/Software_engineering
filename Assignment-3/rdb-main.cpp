@@ -5,17 +5,18 @@ int main()
 	vector <Relation *> rels;//used to store the relations
 	vector <string> atn;//used to store the attribute names
 	vector <string> att;//used to store the attribute types
-    //displaying the menu
-	cout << "Welcome to the database management system.\n";
-	cout << "Select the operation you want to perform:\n";
-	cout << "1. Create a table.\n";
-	cout << "2. Delete an existing table with all data in it.\n";
-	cout << "3. Insert a record into a table.\n";
-	cout << "4. Display a table.\n";
-	cout << "5. Create a table from existing tables using the above developed operations.\n";
-	cout << "6. Exit.\n";
-	cin >> n;//taking input from user
+	n = 1;
+	cout << "Welcome to the relational database management system.\n";
 	while (n != 6) {//loop to perform the operations
+		//displaying the menu
+		cout << "Select the operation you want to perform:\n";
+		cout << "1. Create a table.\n";
+		cout << "2. Delete an existing table with all data in it.\n";
+		cout << "3. Insert a record into a table.\n";
+		cout << "4. Display a table.\n";
+		cout << "5. Create a table from existing tables using the above developed operations.\n";
+		cout << "6. Exit.\n";
+		cin >> n;
 		if (n == 1) {//create table
 			int natttr = 1, nrecs;//number of attributes and number of records
 			vector <string> attrnames;//attribute names
@@ -142,6 +143,10 @@ int main()
                             cout << "string\n";
                             string j;
                             cin >> j;
+							while(j.length() > 32) {
+								cout << "String length cannot exceed 32 characters. Enter again.\n";
+								cin >> j;
+							}
                             stringAttribute *s = new stringAttribute(j);
                             r->addAttr(&(*s));
                         }
@@ -674,17 +679,15 @@ int main()
 				}
 			}
 		}
+		else if (n == 6) {
+			vector<Relation *>::iterator it = rels.begin();
+			for (it = rels.begin(); it != rels.end(); it++) {//loop to delete all the tables
+				(*it)->~Relation();
+			}
+		}
 		else {
 			cout << "Invalid input. Enter again.\n";
 		}
-		cout << "Select the operation you want to perform:\n";
-		cout << "1. Create a table.\n";
-		cout << "2. Delete an existing table with all data in it.\n";
-		cout << "3. Insert a record into a table.\n";
-		cout << "4. Display a table.\n";
-		cout << "5. Create a table from existing tables using the above developed operations.\n";
-		cout << "6. Exit.\n";
-		cin >> n;
 	}
     return 0;
 }
