@@ -15,6 +15,9 @@ def fileClick(clicked):
 	if(a != ""):
 		filename = a
 	if(filename != ""):
+		if(len(imframe) != 0):
+			for i in imframe:
+				i.destroy()
 		imageframe = LabelFrame(root, text="Image" , padx=5, pady=5)
 		imageframe.grid(row=1, column=0, columnspan=8 , padx=5, pady=5 , rowspan=2 , sticky=W+E+N+S)
 		clicked.delete(0 , END)
@@ -24,6 +27,7 @@ def fileClick(clicked):
 		selected_image = ImageTk.PhotoImage(Image.open(filename))
 		label = Label(imageframe, image=selected_image)
 		label.pack()
+		imframe.append(imageframe)
 
 
 def process(clicked, captioner, classifier):
@@ -45,6 +49,9 @@ def process(clicked, captioner, classifier):
 			toplabel = Label(topframe, text="Processing...")
 			toplabel.pack()
 			top.update()
+			if(len(frames) != 0):
+				for i in frames:
+					i.destroy()
 			global captframe
 			global classframe
 			global captions
@@ -68,6 +75,8 @@ def process(clicked, captioner, classifier):
 				classlabel = Label(classframe, text=classes , font=fon)
 				caplabel.pack()
 				classlabel.pack()
+				frames.append(captframe)
+				frames.append(classframe)
 			elif(clicked[0].get() == "classification"):
 				classframe = LabelFrame(root, text="Classifications of " + filename.split("/")[-1] , padx=5, pady=5)
 				classframe.grid(row=1, column=8 , padx=5, pady=5 , rowspan=2 , sticky=W+E+N+S , columnspan=6)
@@ -76,8 +85,9 @@ def process(clicked, captioner, classifier):
 				classes = "Top 3 classes are:\n"
 				for i in range(3):
 					classes += str(i+1) + ") " + str(round(float(classe[i][0])*100,2)) + " percent of " + classe[i][1] + "\n"
-				classlabel = Label(classframe, text=classes , font=fon , foreground=f['color'])
+				classlabel = Label(classframe, text=classes , font=fon , foreground=f['color'] )
 				classlabel.pack()
+				frames.append(classframe)
 			elif(clicked[1].get() == "captioning"):
 				captframe = LabelFrame(root, text="Captions of " + filename.split("/")[-1] , padx=5, pady=5)
 				captframe.grid(row=1, column=8 , padx=5, pady=5 , rowspan=2 , sticky=W+E+N+S , columnspan=6)
@@ -88,6 +98,7 @@ def process(clicked, captioner, classifier):
 					captions += str(i+1) + ") " + (caption[i] + "\n").capitalize()
 				caplabel = Label(captframe, text=captions , font=fon , foreground=f['color'])
 				caplabel.pack()
+				frames.append(captframe)
 
 
 
@@ -146,6 +157,8 @@ if __name__ == '__main__':
 	underlinecheck = Checkbutton(root, text="Underline", variable=underlinevar, onvalue=1, offvalue=0)
 	underlinecheck.deselect()
 	underlinecheck.grid(row=0, column=12)
+	frames = []
+	imframe = []
 	processbutton = Button(root, text="Process", command=lambda: process([clasvar , capvar , {'family': fontvar.get() , 'weight': boldvar.get() , 'slant': italicvar.get() , 'underline': underlinevar.get() , 'overstrike': 0 , 'size': sizevar.get() , 'color': colorvar.get()}], captioner, classifier), font=font.Font(family = "Impact" , size = 10 , weight = "bold" , slant = "italic" , underline = 0 , overstrike = 0 ), foreground="black" , background="red" , activeforeground="white" , activebackground="blue")
 	processbutton.grid(row=0, column=13)
 	root.mainloop()
