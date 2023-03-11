@@ -44,9 +44,7 @@ def process(clicked, captioner, classifier):
 			top = Toplevel(root)
 			top.title("Processing")
 			top.geometry("100x100")
-			topframe = LabelFrame(top, text="Processing" , padx=5, pady=5)
-			topframe.grid(row=0, column=0 , padx=5, pady=5 , rowspan=1 , sticky=W+E+N+S)
-			toplabel = Label(topframe, text="Processing...")
+			toplabel = Label(top, text="Processing...")
 			toplabel.pack()
 			top.update()
 			if(len(frames) != 0):
@@ -71,8 +69,8 @@ def process(clicked, captioner, classifier):
 				for i in range(3):
 					captions += str(i+1) + ") " + (caption[i] + "\n").capitalize()
 					classes += str(i+1) + ") " + str(round(float(classe[i][0])*100,2)) + " percent of " + classe[i][1] + "\n"
-				caplabel = Label(captframe, text=captions , font=fon )
-				classlabel = Label(classframe, text=classes , font=fon)
+				caplabel = Label(captframe, text=captions , font=fon , foreground=f['color'])
+				classlabel = Label(classframe, text=classes , font=fon , foreground=f['color'])
 				caplabel.pack()
 				classlabel.pack()
 				frames.append(captframe)
